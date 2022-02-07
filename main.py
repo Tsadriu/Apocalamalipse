@@ -1,22 +1,26 @@
-#import tkinter
-#import os
-#ciao
-#root = tkinter.Tk()
+import pygame
+import sys
 
-#canvas1 = tkinter.Canvas(root, width=300, height=300)
-#canvas1.pack()
-#ROOT_DIR = os.path.dirname(os.path.abspath("top_level_file.txt"))
-#print(ROOT_DIR)
-#file.write("")
+# Pygame setup
+pygame.init()
+screen_width = 1200
+screen_height = 700
 
-#def hello():
-#    label1 = tkinter.Label(root, text='Hello World!', fg='green', font=('helvetica', 12, 'bold'))
-#    canvas1.create_window(150, 200, window=label1)
+# Sets the screen width and height
+screen = pygame.display.set_mode((screen_width, screen_height))
+clock = pygame.time.Clock()
 
+while True:
+    for event in pygame.event.get():
+        # If we got the event of quitting the game, close the application
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-#button1 = tkinter.Button(text='Click Me', command=hello, bg='brown', fg='white')
-#canvas1.create_window(150, 150, window=button1)
+        screen.fill('black')
 
-#root.mainloop()
-import textAdventure
-textAdventure.start()
+        # Updates the window
+        pygame.display.update()
+
+        # Put the game's frames per second (FPS) to 60
+        clock.tick(60)
