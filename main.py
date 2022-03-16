@@ -20,12 +20,12 @@ while True:
             pygame.quit()
             sys.exit()
 
-        screen.fill('black')
-        level.run()
+    screen.fill('black')
+    level.run()
 
 
-        # Updates the window
-        pygame.display.update()
+    # Updates the window
+    pygame.display.update()
 
-        # Put the game's frames per second (FPS) to 60
-        clock.tick(60)
+    # Put the game's frames per second (FPS) to 60
+    clock.tick(60)
