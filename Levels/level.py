@@ -61,12 +61,15 @@ class Level:
     def vertical_movement_collision(self):
         player = self.player.sprite
         player.apply_gravity()
+
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
                 if player.yPosition < 0:
                     player.rect.top = sprite.rect.bottom
+                    player.yPosition = 0 # Non stiamo "scendendo" dalla mappa perché siamo sopra il blocco, quindi non farlo scendere
                 elif player.yPosition > 0:
                     player.rect.bottom = sprite.rect.top
+                    player.yPosition = 0
 
     def run(self):
         # Fa l'update dello schermo

@@ -23,10 +23,14 @@ class PlayerOne(pygame.sprite.Sprite):
 
         if keys[pygame.K_RIGHT]:
             self.xPosition = 1
-        if keys[pygame.K_LEFT]:
+        elif keys[pygame.K_LEFT]:
             self.xPosition = -1
+        else:
+            self.xPosition = 0
+
         if keys[pygame.K_UP]:
             self.jump()
+
 
     def apply_gravity(self):
         self.yPosition += self.gravity
