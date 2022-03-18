@@ -70,6 +70,7 @@ class Level:
                 elif player.yPosition > 0:
                     player.rect.bottom = sprite.rect.top
                     player.yPosition = 0
+                    player.canJump = True
 
     def run(self):
         # Fa l'update dello schermo
