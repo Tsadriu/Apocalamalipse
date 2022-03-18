@@ -14,8 +14,8 @@ class PlayerOne(pygame.sprite.Sprite):
         self.yPosition = 0
         self.defaultSpeed = 5
         self.speed = self.defaultSpeed
-        self.gravity = 0.425
-        self.jumpSpeed = -1.5
+        self.gravity = 0.8
+        self.jumpSpeed = -16
 
     # Prendi l'input dell'utente
     def input(self):
@@ -33,7 +33,7 @@ class PlayerOne(pygame.sprite.Sprite):
         self.rect.y += self.yPosition
 
     def jump(self):
-        self.yPosition += self.jumpSpeed
+        self.yPosition = self.jumpSpeed
 
     def update(self):
         self.input()
