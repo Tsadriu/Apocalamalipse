@@ -37,6 +37,4 @@ class PlayerOne(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
-        self.rect.x += self.xPosition * self.speed
-        #self.rect.y += self.yPosition * self.speed
-        self.apply_gravity()
+

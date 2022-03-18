@@ -46,6 +46,28 @@ class Level:
             self.world_shift = 0
             player.speed = player.defaultSpeed
 
+    def horizontal_movement_collision(self):
+        player = self.player.sprite
+
+        player.rect.x += player.xPosition * player.speed
+
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.xPosition < 0:
+                    player.rect.left = sprite.rect.right
+                elif player.xPosition > 0:
+                    player.rect.right = sprite.rect.left
+
+    def vertical_movement_collision(self):
+        player = self.player.sprite
+        player.apply_gravity()
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.yPosition < 0:
+                    player.rect.top = sprite.rect.bottom
+                elif player.yPosition > 0:
+                    player.rect.bottom = sprite.rect.top
+
     def run(self):
         # Fa l'update dello schermo
         self.tiles.update(self.world_shift)
@@ -53,11 +75,18 @@ class Level:
         # Disegna il livello
         self.tiles.draw(self.display_surface)
 
-        # Disegna il giocatore
-        self.player.draw(self.display_surface)
+        # Fa l'update della camera che segue il giocatore
+        self.scroll_map_x()
 
         # Update input giocatore
         self.player.update()
 
-        # Fa l'update della camera che segue il giocatore
-        self.scroll_map_x()
+        # Muove il giocatore in orizzontale e controlla le collisioni avvenute
+        self.horizontal_movement_collision()
+
+        # Muove il giocatore in verticale e controlla le collisioni avvenute
+        self.vertical_movement_collision()
+
+        # Disegna il giocatore
+        self.player.draw(self.display_surface)
+
