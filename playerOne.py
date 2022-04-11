@@ -33,6 +33,17 @@ class PlayerOne(pygame.sprite.Sprite):
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
 
+    def animate(self):
+        animation = self.animations['idle']
+
+        # Cicla nella quantità di sprite
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+
+        # Facciamo un cast in int del frame_index, perché sopra facciamo la somma con l'animation_speed (0.13)
+        self.image = animation[int(self.frame_index)]
+
     # Prendi l'input dell'utente
     def input(self):
         keys = pygame.key.get_pressed()
@@ -47,6 +58,8 @@ class PlayerOne(pygame.sprite.Sprite):
         if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
             self.jump()
 
+    
+
     def apply_gravity(self):
         self.yPosition += self.gravity
         self.rect.y += self.yPosition
@@ -58,3 +71,4 @@ class PlayerOne(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
+        self.animate()
