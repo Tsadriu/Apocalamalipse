@@ -9,7 +9,7 @@ class PlayerOne(pygame.sprite.Sprite):
         # Importare le sprite del giocatore
         self.import_character_assets()
         self.frame_index = 0
-        self.animation_speed = 0.13
+        self.animation_speed = 0.15
         # Dimensione sprite personaggio
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft=position)
@@ -23,6 +23,9 @@ class PlayerOne(pygame.sprite.Sprite):
         self.jumpSpeed = -16
         self.canJump = True
 
+        # STato del giocatore (sta correndo, è fermo, sta saltando...)
+        self.status = 'idle'
+
     def import_character_assets(self):
         character_path = 'assets/art/characters/player/'
         # Dizionario
@@ -34,7 +37,7 @@ class PlayerOne(pygame.sprite.Sprite):
             self.animations[animation] = import_folder(full_path)
 
     def animate(self):
-        animation = self.animations['idle']
+        animation = self.animations[self.status]
 
         # Cicla nella quantità di sprite
         self.frame_index += self.animation_speed
@@ -58,7 +61,16 @@ class PlayerOne(pygame.sprite.Sprite):
         if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
             self.jump()
 
-
+    def get_player_status(self):
+        if self.yPosition < 0:
+            self.status = 'jump'
+        elif self.yPosition > 1:
+            self.status = 'fall'
+        else:
+            if self.xPosition != 0:
+                self.status = 'run'
+            else:
+                self.status = 'idle'
 
     def apply_gravity(self):
         self.yPosition += self.gravity
@@ -71,4 +83,5 @@ class PlayerOne(pygame.sprite.Sprite):
 
     def update(self):
         self.input()
+        self.get_player_status()
         self.animate()
