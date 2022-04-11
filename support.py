@@ -1,3 +1,4 @@
+
 from os import walk  # Aggiunge molte funzionalità del sistema
 # Walk ritorna il percorso, il nome del percorso e i nomi dei file all'interno del percorso passato
 import pygame
