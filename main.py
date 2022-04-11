@@ -1,12 +1,14 @@
 import pygame
 import sys
+
+import settings
 from settings import *
 from Levels.level import Level
 
 # Pygame setup
 pygame.init()
-screen_width = 1200
-screen_height = 700
+screen_width = settings.screen_width
+screen_height = settings.screen_height
 
 # Sets the screen width and height
 screen = pygame.display.set_mode((screen_width, screen_height))

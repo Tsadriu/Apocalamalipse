@@ -66,7 +66,7 @@ class Level:
             if sprite.rect.colliderect(player.rect):
                 if player.yPosition < 0:
                     player.rect.top = sprite.rect.bottom
-                    player.yPosition = 0 # Non stiamo "scendendo" dalla mappa perché siamo sopra il blocco, quindi non farlo scendere
+                    player.yPosition = 0 # Quando picchio la testa, torna subito giù
                 elif player.yPosition > 0:
                     player.rect.bottom = sprite.rect.top
                     player.yPosition = 0
