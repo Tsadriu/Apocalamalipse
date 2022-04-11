@@ -1,6 +1,6 @@
 import pygame
 
-from playerOne import PlayerOne
+from player import Player
 from tiles import Tile
 from settings import tile_size, screen_width
 
@@ -28,7 +28,7 @@ class Level:
                     self.tiles.add(tile)
 
                 if cell == 'P':
-                    player_sprite = PlayerOne((x, y))
+                    player_sprite = Player((x, y))
                     self.player.add(player_sprite)
 
     def scroll_map_x(self):
