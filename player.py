@@ -15,16 +15,18 @@ class Player(pygame.sprite.Sprite):
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft=position)
 
+        # Input Giocatore
+        self.xInput = 0
+        self.yInput = 0
+
         # Movimento del giocatore
-        self.xPosition = 0
-        self.yPosition = 0
         self.defaultSpeed = 5
         self.speed = self.defaultSpeed
         self.gravity = 0.8
         self.jumpSpeed = -16
         self.canJump = True
 
-        # STato del giocatore (sta correndo, è fermo, sta saltando...)
+        # Stato del giocatore (sta correndo, è fermo, sta saltando...)
         self.status = 'idle'
 
     def import_character_assets(self):
@@ -48,6 +50,7 @@ class Player(pygame.sprite.Sprite):
             self.frame_index = 0
 
         # Facciamo un cast in int del frame_index, perché sopra facciamo la somma con l'animation_speed (0.13)
+        # Così determiniamo la velocità del frame. Più basso è il numero, e più ci mette a passare da un'immagine all'altra
         self.image = animation[int(self.frame_index)]
 
     # Prendi l'input dell'utente
@@ -55,33 +58,33 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT]:
-            self.xPosition = 1
+            self.xInput = 1
         elif keys[pygame.K_LEFT]:
-            self.xPosition = -1
+            self.xInput = -1
         else:
-            self.xPosition = 0
+            self.xInput = 0
 
         if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
             self.jump()
 
     def get_player_status(self):
-        if self.yPosition < 0:
+        if self.yInput < 0:
             self.status = 'jump'
-        elif self.yPosition > 1:
+        elif self.yInput > 1:
             self.status = 'fall'
         else:
-            if self.xPosition != 0:
+            if self.xInput != 0:
                 self.status = 'run'
             else:
                 self.status = 'idle'
 
     def apply_gravity(self):
-        self.yPosition += self.gravity
-        self.rect.y += self.yPosition
+        self.yInput += self.gravity
+        self.rect.y += self.yInput
 
     def jump(self):
         if self.canJump:
-            self.yPosition = self.jumpSpeed
+            self.yInput = self.jumpSpeed
             self.canJump = False
 
     def update(self):

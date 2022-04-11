@@ -18,7 +18,6 @@ class Level:
     def setup_level(self, layout):
         for row_index, row in enumerate(layout):
             for column_index, cell in enumerate(row):
-
                 # Calcola posizione X e Y
                 x = column_index * tile_size
                 y = row_index * tile_size
@@ -34,7 +33,7 @@ class Level:
     def scroll_map_x(self):
         player = self.player.sprite
         player_x = player.rect.centerx
-        direction_x = player.xPosition
+        direction_x = player.xInput
 
         if player_x < screen_width / 4 and direction_x < 0:
             self.world_shift = 4
@@ -48,14 +47,13 @@ class Level:
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
-
-        player.rect.x += player.xPosition * player.speed
+        player.rect.x += player.xInput * player.speed
 
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
-                if player.xPosition < 0:
+                if player.xInput < 0:
                     player.rect.left = sprite.rect.right
-                elif player.xPosition > 0:
+                elif player.xInput > 0:
                     player.rect.right = sprite.rect.left
 
     def vertical_movement_collision(self):
@@ -64,12 +62,12 @@ class Level:
 
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
-                if player.yPosition < 0:
+                if player.yInput < 0:
                     player.rect.top = sprite.rect.bottom
-                    player.yPosition = 0 # Quando picchio la testa, torna subito giù
-                elif player.yPosition > 0:
+                    player.yInput = 0  # Quando picchio la testa, torna subito giù
+                elif player.yInput > 0:
                     player.rect.bottom = sprite.rect.top
-                    player.yPosition = 0
+                    player.yInput = 0
                     player.canJump = True
 
     def run(self):
@@ -93,4 +91,3 @@ class Level:
 
         # Disegna il giocatore
         self.player.draw(self.display_surface)
-
