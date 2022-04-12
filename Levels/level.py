@@ -14,6 +14,7 @@ class Level:
         self.display_surface = surface
         self.setup_level(level_data)
         self.world_shift = 0
+        self.current_x = 0
 
     def setup_level(self, layout):
         for row_index, row in enumerate(layout):
@@ -53,8 +54,15 @@ class Level:
             if sprite.rect.colliderect(player.rect):
                 if player.xInput < 0:
                     player.rect.left = sprite.rect.right
+                    player.onWallLeft = True
                 elif player.xInput > 0:
                     player.rect.right = sprite.rect.left
+                    player.onWallRight = True
+
+        if player.onWallLeft and (player.rect.left < self.current_x or player.xInput >= 0):
+            player.onWallLeft = False
+        if player.onWallRight and (player.rect.right > self.current_x or player.xInput <= 0):
+            player.onWallRight = False
 
     def vertical_movement_collision(self):
         player = self.player.sprite

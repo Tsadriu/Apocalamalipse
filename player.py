@@ -20,10 +20,10 @@ class Player(pygame.sprite.Sprite):
         self.yInput = 0
 
         # Movimento del giocatore
-        self.defaultSpeed = 5
+        self.defaultSpeed = 6
         self.speed = self.defaultSpeed
         self.gravity = 0.8
-        self.jumpSpeed = -16
+        self.jumpSpeed = -18
         self.facingRight = True
         self.onGround = False
         self.onCeiling = False
@@ -64,13 +64,19 @@ class Player(pygame.sprite.Sprite):
             flipped_image = pygame.transform.flip(image, True, False)
             self.image = flipped_image
 
-        # Imposta il rect del giocatore
-        if self.onGround:
+        # Imposta il rect del giocatore (l'hitbox)
+        if self.onGround and self.onWallRight:
+            self.rect = self.image.get_rect(bottomright=self.rect.bottomright)
+        elif self.onGround and self.onWallLeft:
+            self.rect = self.image.get_rect(bottomleft=self.rect.bottomleft)
+        elif self.onGround:
             self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
+        elif self.onCeiling and self.onWallRight:
+            self.rect = self.image.get_rect(topright=self.rect.topright)
+        elif self.onCeiling and self.onWallLeft:
+            self.rect = self.image.get_rect(topleft=self.rect.topleft)
         elif self.onCeiling:
             self.rect = self.image.get_rect(midtop=self.rect.midtop)
-        else:
-            self.rect = self.image.get_rect(center=self.rect.center)
 
     # Prendi l'input dell'utente
     def input(self):
