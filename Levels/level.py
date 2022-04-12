@@ -65,10 +65,17 @@ class Level:
                 if player.yInput < 0:
                     player.rect.top = sprite.rect.bottom
                     player.yInput = 0  # Quando picchio la testa, torna subito giù
+                    player.onCeiling = True
                 elif player.yInput > 0:
                     player.rect.bottom = sprite.rect.top
                     player.yInput = 0
-                    player.canJump = True
+                    player.onGround = True
+
+        # Se il giocatore sta azionando nell'asse verticale ed è "on ground"
+        if player.onGround and (player.yInput < 0 or player.yInput > 1):
+            player.onGround = False
+        if player.onCeiling and player.yInput > 0:
+            player.onCeiling = False
 
     def run(self):
         # Fa l'update dello schermo

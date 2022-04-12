@@ -24,8 +24,11 @@ class Player(pygame.sprite.Sprite):
         self.speed = self.defaultSpeed
         self.gravity = 0.8
         self.jumpSpeed = -16
-        self.canJump = True
         self.facingRight = True
+        self.onGround = False
+        self.onCeiling = False
+        self.onWallLeft = False
+        self.onWallRight = False
 
         # Stato del giocatore (sta correndo, è fermo, sta saltando...)
         self.status = 'idle'
@@ -61,6 +64,14 @@ class Player(pygame.sprite.Sprite):
             flipped_image = pygame.transform.flip(image, True, False)
             self.image = flipped_image
 
+        # Imposta il rect del giocatore
+        if self.onGround:
+            self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
+        elif self.onCeiling:
+            self.rect = self.image.get_rect(midtop=self.rect.midtop)
+        else:
+            self.rect = self.image.get_rect(center=self.rect.center)
+
     # Prendi l'input dell'utente
     def input(self):
         keys = pygame.key.get_pressed()
@@ -74,7 +85,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.xInput = 0
 
-        if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+        if (keys[pygame.K_UP] or keys[pygame.K_SPACE]) and self.onGround:
             self.jump()
 
     def get_player_status(self):
@@ -93,9 +104,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.yInput
 
     def jump(self):
-        if self.canJump:
-            self.yInput = self.jumpSpeed
-            self.canJump = False
+        self.yInput = self.jumpSpeed
 
     def update(self):
         self.input()
