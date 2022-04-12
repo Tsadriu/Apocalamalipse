@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.jumpSpeed = -16
         self.canJump = True
+        self.facingRight = True
 
         # Stato del giocatore (sta correndo, è fermo, sta saltando...)
         self.status = 'idle'
@@ -37,7 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.animations = {'idle': [], 'run': [], 'jump': [], 'fall': []}
 
         for animation in self.animations.keys():
-            # Sarebbe /asset/art/characters/player/idle, ecc
+            # Sarebbe /asset/art/characters/1/player/idle, ecc
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
 
@@ -51,7 +52,14 @@ class Player(pygame.sprite.Sprite):
 
         # Facciamo un cast in int del frame_index, perché sopra facciamo la somma con l'animation_speed (0.13)
         # Così determiniamo la velocità del frame. Più basso è il numero, e più ci mette a passare da un'immagine all'altra
-        self.image = animation[int(self.frame_index)]
+        image = animation[int(self.frame_index)]
+
+        if self.facingRight:
+            self.image = image
+        else:
+            #                                            X     Y
+            flipped_image = pygame.transform.flip(image, True, False)
+            self.image = flipped_image
 
     # Prendi l'input dell'utente
     def input(self):
@@ -59,8 +67,10 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_RIGHT]:
             self.xInput = 1
+            self.facingRight = True
         elif keys[pygame.K_LEFT]:
             self.xInput = -1
+            self.facingRight = False
         else:
             self.xInput = 0
 
