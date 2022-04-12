@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.status = 'idle'
 
     def import_character_assets(self):
-        selected_character = random.randint(1, 4)
+        selected_character = random.randint(1, 5)
         character_path = 'assets/art/characters/player/' + str(selected_character) + '/'
 
         # Dizionario
