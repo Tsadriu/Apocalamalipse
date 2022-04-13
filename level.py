@@ -4,7 +4,6 @@ from player import Player
 from tiles import Tile
 from settings import tile_size, screen_width
 
-
 class Level:
     def __init__(self, level_data, surface):
 
@@ -15,6 +14,7 @@ class Level:
         self.setup_level(level_data)
         self.world_shift = 0
         self.current_x = 0
+
 
     def setup_level(self, layout):
         for row_index, row in enumerate(layout):
@@ -85,7 +85,7 @@ class Level:
         if player.onCeiling and player.yInput > 0:
             player.onCeiling = False
 
-    def run(self):
+    def run(self, counter):
         # Fa l'update dello schermo
         self.tiles.update(self.world_shift)
 
@@ -96,7 +96,7 @@ class Level:
         self.scroll_map_x()
 
         # Update input giocatore
-        self.player.update()
+        self.player.update(counter)
 
         # Muove il giocatore in orizzontale e controlla le collisioni avvenute
         self.horizontal_movement_collision()

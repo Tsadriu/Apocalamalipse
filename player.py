@@ -1,5 +1,6 @@
 import pygame
 import random
+
 from support import import_folder
 
 
@@ -7,6 +8,8 @@ class Player(pygame.sprite.Sprite):
     # È l'equivalente del costruttore di Java
     def __init__(self, position):
         super().__init__()
+        # Dizionario
+        self.animations = {'idle': [], 'run': [], 'jump': [], 'fall': []}
         # Importare le sprite del giocatore
         self.import_character_assets()
         self.frame_index = 0
@@ -36,9 +39,6 @@ class Player(pygame.sprite.Sprite):
     def import_character_assets(self):
         selected_character = random.randint(1, 5)
         character_path = 'assets/art/characters/player/' + str(selected_character) + '/'
-
-        # Dizionario
-        self.animations = {'idle': [], 'run': [], 'jump': [], 'fall': []}
 
         for animation in self.animations.keys():
             # Sarebbe /asset/art/characters/1/player/idle, ecc
@@ -109,10 +109,15 @@ class Player(pygame.sprite.Sprite):
         self.yInput += self.gravity
         self.rect.y += self.yInput
 
+    def set_gravity(self, amount):
+        if amount is not None:
+            self.gravity = amount
+
     def jump(self):
         self.yInput = self.jumpSpeed
 
-    def update(self):
+    def update(self, timer):
         self.input()
         self.get_player_status()
         self.animate()
+        self.set_gravity(timer)
