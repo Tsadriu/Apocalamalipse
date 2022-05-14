@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.8" tiledversion="1.8.4" name="cherry_tileset" tilewidth="64" tileheight="64" tilecount="9" columns="9">
+ <image source="../../Art/cherry/cherry_tileset.png" width="576" height="64"/>
+</tileset>
