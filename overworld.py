@@ -20,7 +20,7 @@ class Node(pygame.sprite.Sprite):
                                           icon_speed, icon_speed)
 
     def animate(self):
-        self.frame_index += 0.15
+        self.frame_index += 0.05
         if self.frame_index >= len(self.frames):
             self.frame_index = 0
         self.image = self.frames[int(self.frame_index)]
@@ -30,7 +30,7 @@ class Node(pygame.sprite.Sprite):
             self.animate()
         else:
             tint_surf = self.image.copy()
-            tint_surf.fill('black', None, pygame.BLEND_RGBA_MULT)
+            tint_surf.fill('red', None, pygame.BLEND_RGBA_MULT)
             self.image.blit(tint_surf, (0, 0))
 
 
@@ -58,7 +58,7 @@ class Overworld:
         # movement logic
         self.IsMoving = False
         self.MovementDirection = pygame.math.Vector2(0, 0)
-        self.speed = 16
+        self.speed = 7
 
         # sprites
         self.SetNodes()
