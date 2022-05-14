@@ -1,5 +1,5 @@
 import pygame
-import random
+from random import randint
 
 from support import ImportCsvFile, import_cut_graphics
 from settings import tileSize, screenHeight, screenWidth
@@ -19,7 +19,9 @@ class Level:
 
         # Audio
         self.cherrySounds = pygame.mixer.Sound('Assets/Audio/effects/cherry.wav')
+        self.cherrySounds.set_volume(0.2)
         self.victorySound = pygame.mixer.Sound('Assets/Audio/effects/win.wav')
+        self.victorySound.set_volume(0.2)
         self.enemyDeath = pygame.mixer.Sound('Assets/Audio/effects/enemy_death.wav')
         self.enemyDeath.set_volume(0.2)
 
@@ -145,6 +147,7 @@ class Level:
         if player.onGround and player.direction.y < 0 or player.direction.y > 1:
             player.onGround = False
 
+# Muova la telecamera
     def ScrollMapX(self):
         player = self.player.sprite
         playerPositionX = player.rect.centerx
@@ -172,7 +175,8 @@ class Level:
             self.victorySound.play()
             self.currentOverworld(self.currentLevel, self.unlockedMaxLevel)
 
-    def CheckPlayerDeath(self):
+# Viene usato solamente per la lava
+    def CheckPlayerFallInLava(self):
         if self.player.sprite.rect.top > screenHeight:
             self.currentOverworld(self.currentLevel, 0)
 
@@ -182,7 +186,7 @@ class Level:
             for cherry in collidedCherries:
                 cherry.kill()
                 self.cherrySounds.play()
-                self.player.sprite.GetHeal()
+                self.player.sprite.GetHeal(randint(5, 17))
 
     def CheckEnemyCollisions(self):
         collidedEnemies = pygame.sprite.spritecollide(self.player.sprite, self.enemySprites, False)
@@ -193,7 +197,7 @@ class Level:
                 playerBottom = self.player.sprite.rect.bottom
                 if enemyTop < playerBottom < enemyCenter and self.player.sprite.direction.y >= 0:
                     self.enemyDeath.play()
-                    self.player.sprite.direction.y = -8.25 # Fai saltare il giocatore
+                    self.player.sprite.direction.y = -10.25 # Fai saltare il giocatore
                     enemy.Die()
                 else:
                     self.player.sprite.GetDamage(enemy.damage)
@@ -207,7 +211,6 @@ class Level:
 
     def RunGame(self):
         # Questo esegue un update di praticamente tutto il gioco
-        # sky
         self.sky.draw(self.display_surface)
 
         # terrain
@@ -225,14 +228,13 @@ class Level:
         self.spikeSprites.update(self.worldShift)
         self.spikeSprites.draw(self.display_surface)
 
-        # coins
+        # Cherry
         self.cherrySprites.update(self.worldShift)
         self.cherrySprites.draw(self.display_surface)
 
         # player sprites
         self.player.update()
         self.CheckHorizontalCollision()
-
         self.IsPlayerOnGround()
         self.CheckVertivalCollision()
 
@@ -241,12 +243,12 @@ class Level:
         self.goal.update(self.worldShift)
         self.goal.draw(self.display_surface)
 
-        self.CheckPlayerDeath()
+        self.CheckPlayerFallInLava()
         self.CheckPlayerWin()
 
         self.CheckCherryCollisions()
         self.CheckEnemyCollisions()
         self.CheckSpikeCollisions()
 
-        # water
+        # Lava
         self.lava.draw(self.display_surface, self.worldShift)

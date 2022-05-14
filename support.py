@@ -16,6 +16,7 @@ def import_folder(path):
     return surface_list
 
 
+# Legge il file csv
 def ImportCsvFile(path):
     levelMap = []
     with open(path) as map:
@@ -24,7 +25,7 @@ def ImportCsvFile(path):
             levelMap.append(list(row))
         return levelMap
 
-
+# Taglia l'immagine del terreno_tiles così abbiamo gli indici
 def import_cut_graphics(path):
     surface = pygame.image.load(path).convert_alpha()
     tile_num_x = int(surface.get_size()[0] / tileSize)

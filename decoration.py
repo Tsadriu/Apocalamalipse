@@ -24,14 +24,14 @@ class Lava:
         lavaWidth = 192  # Lunghezza della sprite nella cartella
         lavaStart = -screenWidth  # dove parte la lava nell'asse x (sinistra)
         lavaTotalX = int((levelWidth + (screenWidth * 2)) / lavaWidth)
-        self.water_sprites = pygame.sprite.Group()
+        self.lavaSprites = pygame.sprite.Group()
 
         for tile in range(lavaTotalX):
             x = tile * lavaWidth + lavaStart
             y = top - 50
-            sprite = AnimatedTile(192, x, y, 'Assets/Art/decoration/lava', 5)
-            self.water_sprites.add(sprite)
+            sprite = AnimatedTile(lavaWidth, x, y, 'Assets/Art/decoration/lava', 5)
+            self.lavaSprites.add(sprite)
 
     def draw(self, surface, shift):
-        self.water_sprites.update(shift)
-        self.water_sprites.draw(surface)
+        self.lavaSprites.update(shift)
+        self.lavaSprites.draw(surface)
