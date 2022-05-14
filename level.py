@@ -168,6 +168,7 @@ class Level:
 
     def CheckPlayerWin(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+            self.victorySound.set_volume(0.2)
             self.victorySound.play()
             self.currentOverworld(self.currentLevel, self.unlockedMaxLevel)
 

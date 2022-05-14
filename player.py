@@ -16,7 +16,6 @@ class Player(pygame.sprite.Sprite):
 
         # Movimento del giocatore
         self.direction = pygame.math.Vector2(0, 0)
-        #self.movSpeed = 6.5 # Velocità di movimento del giocatore
         self.gravity = 0.75 # Un numero più basso e più alto salta il giocatore
         self.jumpSpeed = -14.25 # Più è basso il numero e più è veloce sarà il giocatore a saltare in verticale
         self.collisionRectangle = pygame.Rect(self.rect.topleft, (50, self.rect.height))
@@ -120,8 +119,7 @@ class Player(pygame.sprite.Sprite):
             self.hurtTime = pygame.time.get_ticks()
 
     def GetHeal(self):
-        amount = random(5, 20)
-        self.currentHealth(amount)
+        self.currentHealth(12)
 
     def InvulnerabilityTimer(self):
         if self.invulnerability: # Se il giocatore è sotto l'effetto di invibilità

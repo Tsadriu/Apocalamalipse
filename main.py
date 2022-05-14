@@ -10,15 +10,13 @@ class Game:
 
         pygame.display.set_caption('Lamapocalypse')
         # game attributes
-        self.max_level = 2 # Imposta il numero di livello sbloccati.
+        self.max_level = 0 # Imposta il numero di livello sbloccati.
         self.playerMaxHealth = 100
         self.playerCurrentHealth = 100
-        self.coins = 0
 
         # Audio
         self.levelMusic = pygame.mixer.Sound('Assets/Audio/level0.ogg')
         self.overworldMusic = pygame.mixer.Sound('Assets/Audio/overworld.ogg')
-        self.levelMusic.set_volume(0.1) # Abbassa il volume della musica
         self.overworldMusic.set_volume(0.1)
 
         # overworld creation
@@ -30,7 +28,6 @@ class Game:
         self.ui = UI(screen)
 
     def CreateLevel(self, current_level):
-
         self.level = Level(current_level, screen, self.CreateOverworld, self.ChangePlayerHealth)
         self.status = 'level'
         self.overworldMusic.stop()
