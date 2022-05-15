@@ -11,23 +11,23 @@ level_0 = {
     'node_graphics': 'Assets/Art/overworld/0'}
 level_1 = {
     'terrain': 'Assets/Levels/1/level_1_terrain.csv',
-    'coins': 'Assets/Levels/1/level_1_coins.csv',
-    'crates': 'Assets/Levels/1/level_1_crates.csv',
+    'cherry': 'Assets/Levels/1/level_1_cherry.csv',
+    'spikes': 'Assets/levels/1/level_1_spikes.csv',
     'enemies': 'Assets/Levels/1/level_1_enemies.csv',
-    'constraints': 'Assets/Levels/1/level_1_constraints.csv',
+    'enemyLimit': 'Assets/Levels/1/level_1_enemyLimit.csv',
     'player': 'Assets/Levels/1/level_1_player.csv',
-    'grass': 'Assets/Levels/1/level_1_grass.csv',
+    'clouds': 'Assets/Levels/1/level_1_clouds.csv',
     'node_pos': (550, 320),
     'node_graphics': 'Assets/Art/overworld/1',
     'unlock': 2}
 level_2 = {
     'terrain': 'Assets/Levels/2/level_2_terrain.csv',
-    'coins': 'Assets/Levels/2/level_2_coins.csv',
-    'crates': 'Assets/Levels/2/level_2_crates.csv',
+    'cherry': 'Assets/Levels/2/level_2_cherry.csv',
+    'spikes': 'Assets/levels/2/level_2_spikes.csv',
     'enemies': 'Assets/Levels/2/level_2_enemies.csv',
-    'constraints': 'Assets/Levels/2/level_2_constraints.csv',
+    'enemyLimit': 'Assets/Levels/2/level_2_enemyLimit.csv',
     'player': 'Assets/Levels/2/level_2_player.csv',
-    'grass': 'Assets/Levels/2/level_2_grass.csv',
+    'clouds': 'Assets/Levels/2/level_2_clouds.csv',
     'node_pos': (975, 200),
     'node_graphics': 'Assets/Art/overworld/2',
     'unlock': 3}

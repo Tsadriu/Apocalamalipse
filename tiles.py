@@ -22,9 +22,9 @@ class Spike(StaticTile):
     def __init__(self, size, x, y):
         super().__init__(size, x, y, pygame.image.load('Assets/Art/terrain/spike.png').convert_alpha())
         offsetY = y + size
-        offsetX = x - size
+        offsetX = x #- size
         self.rect = self.image.get_rect(bottomleft=(offsetX, offsetY))
-        self.damage = 99999
+        self.damage = 200
 
 
 class AnimatedTile(Tile):

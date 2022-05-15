@@ -10,7 +10,7 @@ class Game:
 
         pygame.display.set_caption('Lamapocalypse')
         # game attributes
-        self.max_level = 1 # Imposta il numero di livello sbloccati.
+        self.max_level = 0 # Imposta il numero di livello sbloccati.
         self.playerMaxHealth = 100
         self.playerCurrentHealth = 100
 

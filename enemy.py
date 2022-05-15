@@ -7,7 +7,8 @@ from random import randint
 class Enemy(AnimatedTile):
     def __init__(self, size, x, y):
         super().__init__(size, x, y, 'Assets/Art/enemy/run', 18)
-        self.movSpeed = randint(1, 7)
+        self.rect.y += size - self.image.get_size()[1]
+        self.movSpeed = randint(3, 7)
         self.damage = randint(5, 20)
 
     def MoveEnemy(self):

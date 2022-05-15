@@ -10,7 +10,7 @@
  <tileset firstgid="261" source="../tiled_tilesets/clouds.tsx"/>
  <tileset firstgid="263" source="../tiled_tilesets/cherry_tileset.tsx"/>
  <tileset firstgid="272" source="../tiled_tilesets/enemyLimit.tsx"/>
- <layer id="1" name="terrain" width="60" height="11">
+ <layer id="1" name="terrain" width="60" height="11" offsetx="62" offsety="-6">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

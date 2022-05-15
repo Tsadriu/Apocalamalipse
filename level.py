@@ -99,7 +99,7 @@ class Level:
                 x = columnIndex * tileSize
                 y = rowIndex * tileSize
                 if value == '0':
-                    sprite = Player((x, y), changeHealth)
+                    sprite = Player((x, y), changeHealth, self.currentLevel)
                     self.player.add(sprite)
                 if value == '1':
                     skullEndLevel = pygame.image.load('Assets/Art/character/skull.png').convert_alpha()

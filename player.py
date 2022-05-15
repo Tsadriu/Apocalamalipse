@@ -1,14 +1,14 @@
 import pygame
 import random
 from support import import_folder
-
+import overworld
 
 
 class Player(pygame.sprite.Sprite):
     movSpeed = 6.5
-    def __init__(self, pos, currentHealth):
+    def __init__(self, pos, currentHealth, currentLevel):
         super().__init__()
-        self.ImportCharacterSprites()
+        self.ImportCharacterSprites(currentLevel)
         self.currentFrameIndex = 0
         self.animationSpeed = 0.15
         self.image = self.animations['idle'][self.currentFrameIndex]
@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 
         # Movimento del giocatore
         self.direction = pygame.math.Vector2(0, 0)
-        self.gravity = 0.75 # Più è basso il numero e più alto salta il giocatore
+        self.gravity = 0.685 # Più è basso il numero e più alto salta il giocatore
         self.jumpSpeed = -14.25 # Più è basso il numero e più è veloce sarà il giocatore a saltare in verticale
         self.collisionRectangle = pygame.Rect(self.rect.topleft, (50, self.rect.height))
 
@@ -35,13 +35,14 @@ class Player(pygame.sprite.Sprite):
         self.hurtTime = 0 # Viene usata per sapere quando il giocatore è stato danneggiato
 
         # Audio del giocatore
-        self.jump_sound = pygame.mixer.Sound('Assets/Audio/effects/jump.wav')
-        self.jump_sound.set_volume(0.2)
-        self.hit_sound = pygame.mixer.Sound('Assets/Audio/effects/hit.wav')
-        self.hit_sound.set_volume(0.2)
+        self.playerJumpSound = pygame.mixer.Sound('Assets/Audio/effects/jump.wav')
+        self.playerJumpSound.set_volume(0.2)
+        self.playerHitSound = pygame.mixer.Sound('Assets/Audio/effects/hit.wav')
+        self.playerHitSound.set_volume(0.2)
 
-    def ImportCharacterSprites(self):
-        selectedCharacter = random.randint(1, 5) # Prendi un dinosauro a caso
+    def ImportCharacterSprites(self, currentLevel):
+        #selectedCharacter = random.randint(1, 5) # Prendi un dinosauro a caso
+        selectedCharacter = (currentLevel + 1)
         resourcePath = 'Assets/Art/character/' + str(selectedCharacter) + '/'
         self.animations = {'idle': [], 'run': [], 'jump': [], 'fall': []}
 
@@ -109,11 +110,11 @@ class Player(pygame.sprite.Sprite):
 
     def Jump(self):
         self.direction.y = self.jumpSpeed
-        self.jump_sound.play()
+        self.playerJumpSound.play()
 
     def GetDamage(self, amount):
         if not self.invulnerability:
-            self.hit_sound.play()
+            self.playerHitSound.play()
             self.currentHealth(-amount)
             self.invulnerability = True
             self.hurtTime = pygame.time.get_ticks()
