@@ -19,7 +19,7 @@ class Node(pygame.sprite.Sprite):
         self.detection_zone = pygame.Rect(self.rect.centerx - (icon_speed / 2), self.rect.centery - (icon_speed / 2),
                                           icon_speed, icon_speed)
 
-    def animate(self):
+    def AnimateLevels(self):
         self.frame_index += 0.05
         if self.frame_index >= len(self.frames):
             self.frame_index = 0
@@ -27,7 +27,7 @@ class Node(pygame.sprite.Sprite):
 
     def update(self):
         if self.worldStatus == 'available':
-            self.animate()
+            self.AnimateLevels()
         else:
             tint_surf = self.image.copy()
             tint_surf.fill('red', None, pygame.BLEND_RGBA_MULT)
@@ -55,7 +55,7 @@ class Overworld:
         self.current_level = start_level
         self.create_level = create_level
 
-        # movement logic
+        # movement
         self.IsMoving = False
         self.MovementDirection = pygame.math.Vector2(0, 0)
         self.speed = 7
@@ -65,7 +65,7 @@ class Overworld:
         self.SetupIcon()
         self.sky = Sky(8, 'overworld')
 
-        # time
+        # timer
         self.start_time = pygame.time.get_ticks()
         self.allow_input = False
         self.timer_length = 200
@@ -106,7 +106,7 @@ class Overworld:
 
         if target == 'next':
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level + 1].rect.center)
-        else:
+        elif target == 'previous':
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level - 1].rect.center)
 
         return (end - start).normalize()
