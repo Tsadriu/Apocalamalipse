@@ -9,7 +9,7 @@ class Game:
     def __init__(self):
 
         pygame.display.set_caption('Apocalamalypse')
-        # Attributi livelli e 
+        # Attributi livelli e
         self.max_level = 0 # Imposta il numero di livello sbloccati.
         self.playerMaxHealth = 100
         self.playerCurrentHealth = 100
@@ -49,6 +49,7 @@ class Game:
         if self.playerCurrentHealth > self.playerMaxHealth:
             self.playerCurrentHealth = self.playerMaxHealth
 
+    # Usato per i nemici + spike (spine)
     def CheckGameOver(self):
         if self.playerCurrentHealth <= 0:
             self.playerCurrentHealth = self.playerMaxHealth
@@ -60,7 +61,7 @@ class Game:
 
     def run(self):
         if self.status == 'overworld':
-            self.overworld.run()
+            self.overworld.RunOverworld()
         else:
             self.level.RunGame()
             self.ui.ShowHealthBar(self.playerCurrentHealth, self.playerMaxHealth)

@@ -47,13 +47,13 @@ class Icon(pygame.sprite.Sprite):
 
 
 class Overworld:
-    def __init__(self, start_level, max_level, surface, create_level):
+    def __init__(self, startLevel, maxUnlockableLevel, surface, createdLevel):
 
         # setup
         self.display_surface = surface
-        self.max_level = max_level
-        self.current_level = start_level
-        self.create_level = create_level
+        self.max_level = maxUnlockableLevel
+        self.current_level = startLevel
+        self.create_level = createdLevel
 
         # movement
         self.IsMoving = False
@@ -115,6 +115,7 @@ class Overworld:
         if self.IsMoving and self.MovementDirection:
             self.icon.sprite.pos += self.MovementDirection * self.speed
             target_node = self.nodes.sprites()[self.current_level]
+
             if target_node.detection_zone.collidepoint(self.icon.sprite.pos):
                 self.IsMoving = False
                 self.MovementDirection = pygame.math.Vector2(0, 0)
@@ -125,7 +126,7 @@ class Overworld:
             if current_time - self.start_time >= self.timer_length:
                 self.allow_input = True
 
-    def run(self):
+    def RunOverworld(self):
         # Non fa ricevere input dal giocatore dopo essersi mosso da un livello all'altro
         self.InputCooldown()
         # Ricevere input per selezionare il livello

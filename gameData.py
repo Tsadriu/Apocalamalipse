@@ -17,7 +17,7 @@ level_1 = {
     'enemyLimit': 'Assets/Levels/1/level_1_enemyLimit.csv',
     'player': 'Assets/Levels/1/level_1_player.csv',
     'clouds': 'Assets/Levels/1/level_1_clouds.csv',
-    'node_pos': (550, 320),
+    'node_pos': (550, 350),
     'node_graphics': 'Assets/Art/overworld/1',
     'unlock': 2}
 level_2 = {
