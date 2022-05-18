@@ -1,7 +1,7 @@
 import pygame
 
 import player
-from support import import_folder
+from support import ImportFolderContent
 
 
 class Tile(pygame.sprite.Sprite):
@@ -13,26 +13,10 @@ class Tile(pygame.sprite.Sprite):
     def update(self, shift):
         self.rect.x += shift
 
-
-class StaticTile(Tile):
-    def __init__(self, size, x, y, surface):
-        super().__init__(size, x, y)
-        self.image = surface
-
-
-class Spike(StaticTile):
-    def __init__(self, size, x, y):
-        super().__init__(size, x, y, pygame.image.load('Assets/Art/terrain/spike.png').convert_alpha())
-        offsetY = y + size
-        offsetX = x #- size
-        self.rect = self.image.get_rect(bottomleft=(offsetX, offsetY))
-        self.damage = 200
-
-
 class AnimatedTile(Tile):
     def __init__(self, size, x, y, path, speed):
         super().__init__(size, x, y)
-        self.frames = import_folder(path)
+        self.frames = ImportFolderContent(path)
         self.frameIndex = 0
         self.image = self.frames[self.frameIndex]
         self.speed = speed
@@ -48,6 +32,19 @@ class AnimatedTile(Tile):
         self.Animate()
         self.rect.x += shift
 
+class StaticTile(Tile):
+    def __init__(self, size, x, y, surface):
+        super().__init__(size, x, y)
+        self.image = surface
+
+
+class Spike(StaticTile):
+    def __init__(self, size, x, y):
+        super().__init__(size, x, y, pygame.image.load('Assets/Art/terrain/spike.png').convert_alpha())
+        offsetY = y + size
+        offsetX = x #- size
+        self.rect = self.image.get_rect(bottomleft=(offsetX, offsetY))
+        self.damage = 200
 
 class Cherry(AnimatedTile):
     def __init__(self, size, x, y, path, value):

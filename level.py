@@ -63,6 +63,24 @@ class Level:
         levelWidth = len(terrain_layout[0]) * tileSize
         self.lava = Lava(screenHeight - 20, levelWidth)
 
+    def SetupPlayer(self, layout, changeHealth):
+        for rowIndex, row in enumerate(layout):
+            for columnIndex, value in enumerate(row):
+                x = columnIndex * tileSize
+                y = rowIndex * tileSize
+                if value == '0':
+                    sprite = Player((x, y), changeHealth, self.currentLevel)
+                    self.player.add(sprite)
+                if value == '1':
+                    skullEndLevel = pygame.image.load('Assets/Art/character/skull.png').convert_alpha()
+                    sprite = StaticTile(tileSize, x, y, skullEndLevel)
+                    self.goal.add(sprite)
+
+    def FlipEnemyEdgeSprite(self):
+        for enemy in self.enemySprites.sprites():
+            if pygame.sprite.spritecollide(enemy, self.constraint_sprites, False):
+                enemy.ReverseX()
+
     def CreateTileGroup(self, layout, typeOfTile):
         spriteGroup = pygame.sprite.Group()
 
@@ -92,24 +110,6 @@ class Level:
                     spriteGroup.add(sprite)
 
         return spriteGroup
-
-    def SetupPlayer(self, layout, changeHealth):
-        for rowIndex, row in enumerate(layout):
-            for columnIndex, value in enumerate(row):
-                x = columnIndex * tileSize
-                y = rowIndex * tileSize
-                if value == '0':
-                    sprite = Player((x, y), changeHealth, self.currentLevel)
-                    self.player.add(sprite)
-                if value == '1':
-                    skullEndLevel = pygame.image.load('Assets/Art/character/skull.png').convert_alpha()
-                    sprite = StaticTile(tileSize, x, y, skullEndLevel)
-                    self.goal.add(sprite)
-
-    def FlipEnemyEdgeSprite(self):
-        for enemy in self.enemySprites.sprites():
-            if pygame.sprite.spritecollide(enemy, self.constraint_sprites, False):
-                enemy.ReverseX()
 
     def CheckHorizontalCollision(self):
         player = self.player.sprite
@@ -147,6 +147,13 @@ class Level:
         if player.onGround and player.direction.y < 0 or player.direction.y > 1:
             player.onGround = False
 
+    # Controlal la collisione col teschio
+    def CheckPlayerWin(self):
+        if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+            self.victorySound.set_volume(0.2)
+            self.victorySound.play()
+            self.currentOverworld(self.currentLevel, self.unlockedMaxLevel)
+
 # Muove la telecamera
     def ScrollMapX(self):
         player = self.player.sprite
@@ -168,12 +175,6 @@ class Level:
             self.playerOnGround = True
         else:
             self.playerOnGround = False
-
-    def CheckPlayerWin(self):
-        if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
-            self.victorySound.set_volume(0.2)
-            self.victorySound.play()
-            self.currentOverworld(self.currentLevel, self.unlockedMaxLevel)
 
 # Viene usato solamente per la lava
     def CheckPlayerFallInLava(self):
@@ -217,6 +218,12 @@ class Level:
         self.terrain_sprites.update(self.worldShift)
         self.terrain_sprites.draw(self.display_surface)
 
+        # player sprites
+        self.player.update()
+        self.CheckHorizontalCollision()
+        self.IsPlayerOnGround()
+        self.CheckVertivalCollision()
+
         # enemy
         self.enemySprites.update(self.worldShift)
         self.constraint_sprites.update(self.worldShift)
@@ -232,19 +239,10 @@ class Level:
         self.cherrySprites.update(self.worldShift)
         self.cherrySprites.draw(self.display_surface)
 
-        # player sprites
-        self.player.update()
-        self.CheckHorizontalCollision()
-        self.IsPlayerOnGround()
-        self.CheckVertivalCollision()
-
         self.ScrollMapX()
         self.player.draw(self.display_surface)
         self.goal.update(self.worldShift)
         self.goal.draw(self.display_surface)
-
-        self.CheckPlayerFallInLava()
-        self.CheckPlayerWin()
 
         self.CheckCherryCollisions()
         self.CheckEnemyCollisions()
@@ -252,3 +250,6 @@ class Level:
 
         # Lava
         self.lava.draw(self.display_surface, self.worldShift)
+
+        self.CheckPlayerFallInLava()
+        self.CheckPlayerWin()

@@ -1,5 +1,5 @@
-verticalTileNumber = 11
 tileSize = 64
+verticalTileAmount = 11
 
-screenHeight = verticalTileNumber * tileSize
-screenWidth = 1200
+screenHeight = verticalTileAmount * tileSize
+screenWidth = 1240

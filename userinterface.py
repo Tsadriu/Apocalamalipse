@@ -1,7 +1,7 @@
 import pygame
 
 
-class UI:
+class UserInterface:
     def __init__(self, surface):
         # setup
         self.displaySurface = surface

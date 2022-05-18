@@ -1,7 +1,7 @@
-from settings import verticalTileNumber, tileSize, screenWidth, screenHeight
+from settings import verticalTileAmount, tileSize, screenWidth, screenHeight
 import pygame
 from tiles import AnimatedTile, StaticTile
-from support import import_folder
+from support import ImportFolderContent
 from random import choice, randint
 
 
@@ -14,7 +14,7 @@ class BackGround:
         self.style = style
 
     def draw(self, surface):
-        for row in range(verticalTileNumber):
+        for row in range(verticalTileAmount):
             if row == self.horizon:
                 surface.blit(self.background, (0, 0))
 

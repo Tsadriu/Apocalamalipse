@@ -2,7 +2,7 @@ import pygame, sys
 from settings import *
 from level import Level
 from overworld import Overworld
-from ui import UI
+from userinterface import UserInterface
 
 
 class Game:
@@ -10,7 +10,7 @@ class Game:
 
         pygame.display.set_caption('Apocalamalypse')
         # Attributi livelli e
-        self.max_level = 0 # Imposta il numero di livello sbloccati.
+        self.maxLevel = 0 # Imposta il numero di livello sbloccati.
         self.playerMaxHealth = 100
         self.playerCurrentHealth = 100
 
@@ -20,12 +20,12 @@ class Game:
         self.overworldMusic.set_volume(0.1)
 
         # Creazione mappa mondo
-        self.overworld = Overworld(0, self.max_level, screen, self.CreateLevel)
+        self.overworld = Overworld(0, self.maxLevel, screen, self.CreateLevel)
         self.status = 'overworld'
         self.overworldMusic.play(loops=-1)
 
         # Intefaccia utente
-        self.ui = UI(screen)
+        self.ui = UserInterface(screen)
 
     def CreateLevel(self, current_level):
         self.level = Level(current_level, screen, self.CreateOverworld, self.ChangePlayerHealth)
@@ -36,10 +36,10 @@ class Game:
         self.levelMusic.play(loops=-1)
 
     def CreateOverworld(self, current_level, new_max_level):
-        if new_max_level > self.max_level:
-            self.max_level = new_max_level
+        if new_max_level > self.maxLevel:
+            self.maxLevel = new_max_level
 
-        self.overworld = Overworld(current_level, self.max_level, screen, self.CreateLevel)
+        self.overworld = Overworld(current_level, self.maxLevel, screen, self.CreateLevel)
         self.status = 'overworld'
         self.overworldMusic.play(loops=-1)
         self.levelMusic.stop()
@@ -53,8 +53,8 @@ class Game:
     def CheckGameOver(self):
         if self.playerCurrentHealth <= 0:
             self.playerCurrentHealth = self.playerMaxHealth
-            self.max_level = 0
-            self.overworld = Overworld(0, self.max_level, screen, self.CreateLevel)
+            self.maxLevel = 0
+            self.overworld = Overworld(0, self.maxLevel, screen, self.CreateLevel)
             self.status = 'overworld'
             self.levelMusic.stop()
             self.overworldMusic.play(loops=-1)

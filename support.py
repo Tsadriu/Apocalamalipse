@@ -4,7 +4,7 @@ from os import walk
 import pygame
 
 
-def import_folder(path):
+def ImportFolderContent(path):
     surface_list = []
 
     for _, __, image_files in walk(path):
@@ -19,8 +19,8 @@ def import_folder(path):
 # Legge il file csv
 def ImportCsvFile(path):
     levelMap = []
-    with open(path) as map:
-        level = reader(map, delimiter=',')
+    with open(path) as currentMap:
+        level = reader(currentMap, delimiter=',')
         for row in level:
             levelMap.append(list(row))
         return levelMap
@@ -29,16 +29,16 @@ def ImportCsvFile(path):
 # Taglia l'immagine del terreno_tiles così abbiamo gli indici
 def ImportMapGraphics(path):
     surface = pygame.image.load(path).convert_alpha()
-    tile_num_x = int(surface.get_size()[0] / tileSize)
-    tile_num_y = int(surface.get_size()[1] / tileSize)
+    tileX = int(surface.get_size()[0] / tileSize)
+    tileY = int(surface.get_size()[1] / tileSize)
 
-    cut_tiles = []
-    for row in range(tile_num_y):
-        for col in range(tile_num_x):
-            x = col * tileSize
+    mapTiles = []
+    for row in range(tileY):
+        for column in range(tileX):
+            x = column * tileSize
             y = row * tileSize
-            new_surf = pygame.Surface((tileSize, tileSize), flags=pygame.SRCALPHA)
-            new_surf.blit(surface, (0, 0), pygame.Rect(x, y, tileSize, tileSize))
-            cut_tiles.append(new_surf)
+            newSurface = pygame.Surface((tileSize, tileSize), flags=pygame.SRCALPHA)
+            newSurface.blit(surface, (0, 0), pygame.Rect(x, y, tileSize, tileSize))
+            mapTiles.append(newSurface)
 
-    return cut_tiles
+    return mapTiles

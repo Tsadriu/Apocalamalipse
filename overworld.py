@@ -1,30 +1,31 @@
 import pygame
 from gameData import levels
-from support import import_folder
+from support import ImportFolderContent
 from decoration import BackGround
 
 
 class Node(pygame.sprite.Sprite):
     def __init__(self, pos, worldStatus, icon_speed, path):
         super().__init__()
-        self.frames = import_folder(path)
-        self.frame_index = 0
-        self.image = self.frames[self.frame_index]
+        self.frames = ImportFolderContent(path)
+        self.frameIndex = 0
+        self.image = self.frames[self.frameIndex]
         if worldStatus == 'available':
             self.worldStatus = 'available'
         else:
             self.worldStatus = 'locked'
         self.rect = self.image.get_rect(center=pos)
-
-        self.detection_zone = pygame.Rect(self.rect.centerx - (icon_speed / 2), self.rect.centery - (icon_speed / 2),
-                                          icon_speed, icon_speed)
+        self.xDetection = self.rect.centerx - (icon_speed / 2);
+        self.yDetection = self.rect.centery - (icon_speed / 2);
+        self.detection_zone = pygame.Rect(self.xDetection, self.yDetection, icon_speed, icon_speed)
 
     def AnimateLevels(self):
-        self.frame_index += 0.05
-        if self.frame_index >= len(self.frames):
-            self.frame_index = 0
-        self.image = self.frames[int(self.frame_index)]
+        self.frameIndex += 0.05
+        if self.frameIndex >= len(self.frames):
+            self.frameIndex = 0
+        self.image = self.frames[int(self.frameIndex)]
 
+    # Fa l'update delle animazioni dei livelli
     def update(self):
         if self.worldStatus == 'available':
             self.AnimateLevels()
@@ -35,37 +36,33 @@ class Node(pygame.sprite.Sprite):
 
 
 class Icon(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, position):
         super().__init__()
-        self.pos = pos
+        self.position = position
         self.image = pygame.image.load('Assets/Art/character/skull.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (48, 48))
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center=position)
 
     def update(self):
-        self.rect.center = self.pos
+        self.rect.center = self.position
 
 
 class Overworld:
     def __init__(self, startLevel, maxUnlockableLevel, surface, createdLevel):
 
-        # setup
         self.display_surface = surface
-        self.max_level = maxUnlockableLevel
-        self.current_level = startLevel
-        self.create_level = createdLevel
+        self.maxLevel = maxUnlockableLevel
+        self.currentLevel = startLevel
+        self.createdLevel = createdLevel
 
-        # movement
         self.IsMoving = False
         self.MovementDirection = pygame.math.Vector2(0, 0)
-        self.speed = 7
+        self.speed = 7.5
 
-        # sprites
         self.SetNodes()
         self.SetupIcon()
         self.sky = BackGround(8, 'overworld')
 
-        # timer
         self.start_time = pygame.time.get_ticks()
         self.allow_input = False
         self.timer_length = 200
@@ -75,7 +72,7 @@ class Overworld:
         self.nodes = pygame.sprite.Group()
 
         for index, node_data in enumerate(levels.values()):
-            if index <= self.max_level:
+            if index <= self.maxLevel:
                 node_sprite = Node(node_data['node_pos'], 'available', self.speed, node_data['node_graphics'])
             else:
                 node_sprite = Node(node_data['node_pos'], 'locked', self.speed, node_data['node_graphics'])
@@ -83,48 +80,43 @@ class Overworld:
 
     def SetupIcon(self):
         self.icon = pygame.sprite.GroupSingle()
-        icon_sprite = Icon(self.nodes.sprites()[self.current_level].rect.center)
+        icon_sprite = Icon(self.nodes.sprites()[self.currentLevel].rect.center)
         self.icon.add(icon_sprite)
 
     def GetPlayerInputToSelectLevel(self):
         keys = pygame.key.get_pressed()
 
         if not self.IsMoving and self.allow_input:
-            if (keys[pygame.K_RIGHT] or keys[pygame.K_UP]) and self.current_level < self.max_level:
-                self.MovementDirection = self.GetMovData('next')
-                self.current_level += 1
+            if (keys[pygame.K_RIGHT] or keys[pygame.K_UP]) and self.currentLevel < self.maxLevel:
+                self.MovementDirection = self.GetMovement('next')
+                self.currentLevel += 1
                 self.IsMoving = True
-            elif (keys[pygame.K_LEFT] or keys[pygame.K_DOWN]) and self.current_level > 0:
-                self.MovementDirection = self.GetMovData('previous')
-                self.current_level -= 1
+            elif (keys[pygame.K_LEFT] or keys[pygame.K_DOWN]) and self.currentLevel > 0:
+                self.MovementDirection = self.GetMovement('previous')
+                self.currentLevel -= 1
                 self.IsMoving = True
-            elif keys[pygame.K_SPACE]:
-                self.create_level(self.current_level)
-
-    def GetMovData(self, target):
-        start = pygame.math.Vector2(self.nodes.sprites()[self.current_level].rect.center)
-
-        if target == 'next':
-            end = pygame.math.Vector2(self.nodes.sprites()[self.current_level + 1].rect.center)
-        elif target == 'previous':
-            end = pygame.math.Vector2(self.nodes.sprites()[self.current_level - 1].rect.center)
-
-        return (end - start).normalize()
-
-    def MovePlayerIcon(self):
-        if self.IsMoving and self.MovementDirection:
-            self.icon.sprite.pos += self.MovementDirection * self.speed
-            target_node = self.nodes.sprites()[self.current_level]
-
-            if target_node.detection_zone.collidepoint(self.icon.sprite.pos):
-                self.IsMoving = False
-                self.MovementDirection = pygame.math.Vector2(0, 0)
+            elif keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
+                self.createdLevel(self.currentLevel)
 
     def InputCooldown(self):
         if not self.allow_input:
             current_time = pygame.time.get_ticks()
             if current_time - self.start_time >= self.timer_length:
                 self.allow_input = True
+
+    def GetMovement(self, target):
+        posStart = pygame.math.Vector2(self.nodes.sprites()[self.currentLevel].rect.center)
+        posEnd = pygame.math.Vector2(self.nodes.sprites()[self.currentLevel + 1 if target == 'next' else self.currentLevel - 1].rect.center)
+        return (posEnd - posStart).normalize()
+
+    def MovePlayerIcon(self):
+        if self.IsMoving and self.MovementDirection:
+            self.icon.sprite.pos += self.MovementDirection * self.speed
+            position = self.nodes.sprites()[self.currentLevel]
+
+            if position.detection_zone.collidepoint(self.icon.sprite.pos):
+                self.IsMoving = False
+                self.MovementDirection = pygame.math.Vector2(0, 0)
 
     def RunOverworld(self):
         # Non fa ricevere input dal giocatore dopo essersi mosso da un livello all'altro

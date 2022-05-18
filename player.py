@@ -1,5 +1,5 @@
 import pygame
-from support import import_folder
+from support import ImportFolderContent
 
 
 class Player(pygame.sprite.Sprite):
@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
 
         for animation in self.animations.keys():
             fullPath = resourcePath + animation
-            self.animations[animation] = import_folder(fullPath)
+            self.animations[animation] = ImportFolderContent(fullPath)
 
     def UpdateAnimation(self):
         animation = self.animations[self.status]
