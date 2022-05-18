@@ -147,7 +147,7 @@ class Level:
         if player.onGround and player.direction.y < 0 or player.direction.y > 1:
             player.onGround = False
 
-# Muova la telecamera
+# Muove la telecamera
     def ScrollMapX(self):
         player = self.player.sprite
         playerPositionX = player.rect.centerx
