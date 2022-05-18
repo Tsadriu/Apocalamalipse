@@ -1,11 +1,11 @@
 import pygame
 from random import randint
 
-from support import ImportCsvFile, import_cut_graphics
+from support import ImportCsvFile, ImportMapGraphics
 from settings import tileSize, screenHeight, screenWidth
 from tiles import Tile, StaticTile, Spike, Cherry
 from enemy import Enemy
-from decoration import Sky, Lava
+from decoration import BackGround, Lava
 from player import Player
 from gameData import levels
 
@@ -59,7 +59,7 @@ class Level:
         self.constraint_sprites = self.CreateTileGroup(enemyLimitLayout, 'enemyLimit')
 
         # decoration
-        self.sky = Sky(8)
+        self.sky = BackGround(8)
         levelWidth = len(terrain_layout[0]) * tileSize
         self.lava = Lava(screenHeight - 20, levelWidth)
 
@@ -76,7 +76,7 @@ class Level:
                         sprite = Enemy(tileSize, x, y)
 
                     if typeOfTile == 'terrain':
-                        terrain_tile_list = import_cut_graphics('Assets/Art/terrain/terrain.png')
+                        terrain_tile_list = ImportMapGraphics('Assets/Art/terrain/terrain.png')
                         tile_surface = terrain_tile_list[int(value)]
                         sprite = StaticTile(tileSize, x, y, tile_surface)
 

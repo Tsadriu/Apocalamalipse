@@ -1,4 +1,6 @@
 import pygame
+
+import player
 from support import import_folder
 
 

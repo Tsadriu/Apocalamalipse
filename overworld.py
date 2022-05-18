@@ -1,7 +1,7 @@
 import pygame
 from gameData import levels
 from support import import_folder
-from decoration import Sky
+from decoration import BackGround
 
 
 class Node(pygame.sprite.Sprite):
@@ -63,7 +63,7 @@ class Overworld:
         # sprites
         self.SetNodes()
         self.SetupIcon()
-        self.sky = Sky(8, 'overworld')
+        self.sky = BackGround(8, 'overworld')
 
         # timer
         self.start_time = pygame.time.get_ticks()

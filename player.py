@@ -1,7 +1,5 @@
 import pygame
-import random
 from support import import_folder
-import overworld
 
 
 class Player(pygame.sprite.Sprite):

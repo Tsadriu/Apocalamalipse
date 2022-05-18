@@ -30,7 +30,7 @@ level_2 = {
     'clouds': 'Assets/Levels/2/level_2_clouds.csv',
     'node_pos': (975, 200),
     'node_graphics': 'Assets/Art/overworld/2',
-    'unlock': 3}
+    'unlock': 2}
 
 
 levels = {

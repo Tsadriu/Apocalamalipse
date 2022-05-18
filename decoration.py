@@ -5,7 +5,7 @@ from support import import_folder
 from random import choice, randint
 
 
-class Sky:
+class BackGround:
     def __init__(self, horizon, style='level'):
         self.background = pygame.image.load('Assets/Art/decoration/background.png')
         self.horizon = horizon

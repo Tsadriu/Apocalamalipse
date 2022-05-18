@@ -8,8 +8,8 @@ from ui import UI
 class Game:
     def __init__(self):
 
-        pygame.display.set_caption('Lamapocalypse')
-        # game attributes
+        pygame.display.set_caption('Apocalamalypse')
+        # Attributi livelli e 
         self.max_level = 0 # Imposta il numero di livello sbloccati.
         self.playerMaxHealth = 100
         self.playerCurrentHealth = 100
@@ -19,12 +19,12 @@ class Game:
         self.overworldMusic = pygame.mixer.Sound('Assets/Audio/overworld.ogg')
         self.overworldMusic.set_volume(0.1)
 
-        # overworld creation
+        # Creazione mappa mondo
         self.overworld = Overworld(0, self.max_level, screen, self.CreateLevel)
         self.status = 'overworld'
         self.overworldMusic.play(loops=-1)
 
-        # user interface
+        # Intefaccia utente
         self.ui = UI(screen)
 
     def CreateLevel(self, current_level):
